@@ -1,0 +1,14 @@
+bin/
+*.cid
+.cache
+.logs
+target
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+*.classpath
+*.project
+.DS_Store
+builder.cid
