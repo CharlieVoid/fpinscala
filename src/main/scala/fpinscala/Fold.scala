@@ -42,8 +42,15 @@ object Fold {
     foldLeft[A, List[B]](as, Nil)((b, a) => append(f(a), b))
 
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
-    foldLeft[A, List[A]](as, Nil)((b, a) => {
+    foldLeft[A, List[A]](as, Nil)((b, a) =>
       if (f(a)) append(a, b)
       else b
-    })
+    )
+
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+    foldLeft[A, List[B]](as, Nil)((bs, a) =>
+      foldLeft(f(a), bs)((bs2, b2) => append(b2, bs2))
+    )
+
+  
 }
