@@ -53,7 +53,7 @@ object List {
   }
 
   def length[A](as: List[A]): Int = {
-    Fold.foldRight[A, Int](as, 0)((_, sum) => sum + 1)
+    Fold.foldRightNotTailRec[A, Int](as, 0)((_, sum) => sum + 1)
   }
 
 }

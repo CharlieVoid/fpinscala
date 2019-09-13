@@ -2,10 +2,10 @@ package fpinscala
 
 object Fold {
 
-  def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B =
+  def foldRightNotTailRec[A,B](as: List[A], z: B)(f: (A, B) => B): B =
     as match {
       case Nil => z
-      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+      case Cons(x, xs) => f(x, foldRightNotTailRec(xs, z)(f))
     }
 
   @annotation.tailrec
@@ -34,7 +34,18 @@ object Fold {
     )
   }
 
-  def foldRightTailRec[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
     foldLeft(reverse(as), z)((b: B, a: A) => f(a,b))
   }
+
+  def append[A](a: A, as: List[A]): List[A] = {
+    foldRight(as, List(a))(Cons(_, _))
+  }
+
+  def concatenate[A](l: List[List[A]]): List[A] = {
+    foldLeft[List[A], List[A]](l, Nil)((b: List[A], a: List[A]) =>
+      foldLeft[A, List[A]](a, b)((b2, a2) => append(a2, b2))
+    )
+  }
+
 }

@@ -16,7 +16,7 @@ class FoldSpec extends FreeSpec with Matchers {
   }
 
   "3.8 - Nil and Cons to foldRight" in {
-    val x = Fold.foldRight(List(1,2,3), Nil: List[Int])(Cons(_,_))
+    val x = Fold.foldRightNotTailRec(List(1,2,3), Nil: List[Int])(Cons(_,_))
     println(x)
   }
 
@@ -42,7 +42,15 @@ class FoldSpec extends FreeSpec with Matchers {
   }
 
   "3.13 - foldRight tailrec via foldLeft" in {
-    foldRightTailRec (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
-    foldRight        (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
+    foldRight           (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
+    foldRightNotTailRec (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
+  }
+
+  "3.14 - append using fold" in {
+    append(4, List(1,2,3)) shouldBe List(1,2,3,4)
+  }
+
+  "3.15 - concatenate list of lists" in {
+    concatenate(List(List(1,2), List(3,4), List(5))) shouldBe List(1,2,3,4,5)
   }
 }
