@@ -53,4 +53,27 @@ class FoldSpec extends FreeSpec with Matchers {
   "3.15 - concatenate list of lists" in {
     concatenate(List(List(1,2), List(3,4), List(5))) shouldBe List(1,2,3,4,5)
   }
+
+  "3.16 - add 1 to integers" in {
+    def add1(is: List[Int]): List[Int] =
+      foldRight[Int, List[Int]](is, Nil)((a,b) => Cons(a+1, b))
+
+    add1(List(0, 1, 2)) shouldBe List(1,2,3)
+  }
+
+  "3.17 - doubles to strings" in {
+    def dToS(ds: List[Double]): List[String] =
+      foldRight[Double, List[String]](ds, Nil)((a, b) => Cons(a.toString, b))
+
+    dToS(List(1.1, 2.2, 3.3)) shouldBe List("1.1", "2.2", "3.3")
+  }
+
+  "3.18 - map" in {
+    map(List(1.1, 2.2, 3.3))(_.toString) shouldBe List("1.1", "2.2", "3.3")
+  }
+
+  "3.19 - filter" in {
+    filter(List(1,2,3,4,5))(_ % 2 == 0) shouldBe List(2,4)
+  }
+  
 }
