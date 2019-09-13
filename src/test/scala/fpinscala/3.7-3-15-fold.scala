@@ -1,6 +1,7 @@
 package fpinscala
 
 import org.scalatest.{FreeSpec, Matchers}
+import fpinscala.Fold._
 
 class FoldSpec extends FreeSpec with Matchers {
 
@@ -24,6 +25,24 @@ class FoldSpec extends FreeSpec with Matchers {
   }
 
   "3.10 - foldLeft tail-recursive " in {
-    Fold.foldLeft(List(1,2,3,4), 0)(_ + _) shouldBe 10
+    foldLeft(List(1,2,3,4), 0)(_ + _) shouldBe 10
+  }
+
+  "3.11 - sum product count" in {
+
+    sum(List(1,2,3,4)) shouldBe 10
+
+    product(List(2,2,2)) shouldBe 8
+
+    count(List("a", "b", "c")) shouldBe 3
+  }
+
+  "3.12 - reverse" in {
+    reverse(List(1,2,3,4)) shouldBe List(4,3,2,1)
+  }
+
+  "3.13 - foldRight tailrec via foldLeft" in {
+    foldRightTailRec (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
+    foldRight        (List("a","b","c","d"), "")((a,b) => b + a) shouldBe "dcba"
   }
 }
