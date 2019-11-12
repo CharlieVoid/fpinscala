@@ -52,5 +52,37 @@ object Fold {
       foldLeft(f(a), bs)((bs2, b2) => append(b2, bs2))
     )
 
-  
+  def filterUsingFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)(a =>
+      if (f(a)) List(a)
+      else Nil
+    )
+
+  def zipWith[A](as1: List[A], as2: List[A], f: (A,A) => A): List[A] = {
+    def go(aa1: List[A], aa2: List[A], z: List[A]): List[A] = {
+      (aa1, aa2) match {
+        case (Nil, _) => z
+        case (_, Nil) => z
+        case (Cons(h1, t1), Cons(h2, t2)) =>
+          go(t1, t2, append(f(h1, h2), z))
+      }
+    }
+
+    go(as1, as2, Nil)
+  }
+
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+    def go(sup: List[A], sub: List[A], toGo: List[A]): Boolean = {
+      (sup, toGo) match {
+        case (_, Nil) => true
+        case (Nil, _) => false
+        case (Cons(h1, t1), Cons(h2, t2)) =>
+          if (h1 == h2) go(t1, sub, t2)
+          else go(t1, sub, sub)
+      }
+    }
+
+    go(sup, sub, sub)
+  }
+
 }

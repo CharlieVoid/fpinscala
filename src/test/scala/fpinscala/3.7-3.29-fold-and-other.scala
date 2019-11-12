@@ -79,4 +79,21 @@ class FoldSpec extends FreeSpec with Matchers {
   "3.20 - flatMap" in {
     flatMap(List(1,2,3))(i => List(i, i)) shouldBe List(1,1,2,2,3,3)
   }
+
+  "3.21 - filter using flatMap" in {
+    filterUsingFlatMap(List(1,2,3,4,5))(_ % 2 == 0) shouldBe List(2,4)
+  }
+
+  "3.23 - zipWith" in {
+    zipWith[Int](List(1, 2, 3), List(4, 5, 6), (a,b) => a + b) shouldBe List(5, 7, 9)
+  }
+
+  "3.24 - subsequence" in {
+
+    hasSubsequence(List(1,2,3,4), List(1,2,3)) shouldBe true
+    hasSubsequence(List(1,2,3,4), List(2,3)) shouldBe true
+    hasSubsequence(List(1,2,3,4), List(4)) shouldBe true
+    hasSubsequence(List(1,2,3,4), List(5)) shouldBe false
+    hasSubsequence(List(1,2,3,4), List(1,2,4)) shouldBe false
+  }
 }
