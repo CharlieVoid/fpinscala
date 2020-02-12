@@ -89,11 +89,193 @@ class FoldSpec extends FreeSpec with Matchers {
   }
 
   "3.24 - subsequence" in {
-
     hasSubsequence(List(1,2,3,4), List(1,2,3)) shouldBe true
     hasSubsequence(List(1,2,3,4), List(2,3)) shouldBe true
     hasSubsequence(List(1,2,3,4), List(4)) shouldBe true
     hasSubsequence(List(1,2,3,4), List(5)) shouldBe false
     hasSubsequence(List(1,2,3,4), List(1,2,4)) shouldBe false
+  }
+  "3.25 - tree size" in {
+    Tree.size(
+      Leaf(1)
+    ) shouldBe 1
+
+    Tree.size(
+      Branch[Int](
+        Leaf(1),
+        Leaf(2))
+    ) shouldBe 3
+
+    Tree.size(
+      Branch[Int](
+        Branch[Int](
+          Leaf(1),
+          Leaf(2)
+        ),
+        Leaf(3)
+    )) shouldBe 5
+  }
+
+  "3.26 - tree max" in {
+    Tree.max[Int](
+      Leaf(1),
+      0,
+      _.max(_)
+    ) shouldBe 1
+
+    Tree.max[Int](
+      Branch(
+        Branch(
+          Leaf(55),
+          Leaf(77)
+        ),
+        Leaf(66)
+      ),
+      0,
+      _.max(_)
+    ) shouldBe 77
+
+    Tree.max[Int](
+      Branch(
+        Branch(
+          Leaf(66),
+          Leaf(55)
+        ),
+        Leaf(77)
+      ),
+      0,
+      _.max(_)
+    ) shouldBe 77
+  }
+
+  "3.27 - tree depth" in {
+    Tree.depth(Leaf(1)) shouldBe 1
+
+    Tree.depth(
+      Branch(
+        Leaf(1),
+        Leaf(2),
+      )
+    ) shouldBe 2
+
+    Tree.depth(
+      Branch(
+        Branch(
+          Leaf(1),
+          Leaf(2)
+        ),
+        Branch(
+          Branch(
+            Leaf(1),
+            Leaf(2)
+          ),
+          Leaf(2)
+        )
+      )
+    ) shouldBe 4
+  }
+
+  "3.28 - tree map" in {
+    Tree.map(
+      Branch(
+        Branch(
+          Leaf(55),
+          Leaf(77)
+        ),
+        Leaf(66)
+      ),
+      (a: Int) => a * 10
+    ) shouldBe
+      Branch(
+        Branch(
+          Leaf(550),
+          Leaf(770)
+        ),
+        Leaf(660)
+      )
+  }
+
+  "3.29 - tree fold size" in {
+    Tree.sizeFold[Int](
+      Leaf(1)
+    ) shouldBe 1
+
+    Tree.sizeFold[Int](
+      Branch[Int](
+        Leaf(1),
+        Leaf(2)
+      )
+    ) shouldBe 3
+
+    Tree.sizeFold[Int](
+      Branch[Int](
+        Branch[Int](
+          Leaf(1),
+          Leaf(2)
+        ),
+        Leaf(3)
+      )
+    ) shouldBe 5
+  }
+
+  "3.29 - tree fold max" in {
+    Tree.maxFold[Int](
+      Leaf(1),
+      0,
+      _.max(_)
+    ) shouldBe 1
+
+    Tree.maxFold[Int](
+      Branch(
+        Branch(
+          Leaf(55),
+          Leaf(77)
+        ),
+        Leaf(66)
+      ),
+      0,
+      _.max(_)
+    ) shouldBe 77
+
+    Tree.maxFold[Int](
+      Branch(
+        Branch(
+          Leaf(66),
+          Leaf(55)
+        ),
+        Leaf(77)
+      ),
+      0,
+      _.max(_)
+    ) shouldBe 77
+  }
+
+  "3.29 - tree fold depth" in {
+    Tree.depthFold(
+      Leaf(1)
+    ) shouldBe 1
+
+    Tree.depthFold(
+      Branch(
+        Leaf(1),
+        Leaf(2),
+      )
+    ) shouldBe 2
+
+    Tree.depthFold(
+      Branch(
+        Branch(
+          Leaf(1),
+          Leaf(2)
+        ),
+        Branch(
+          Branch(
+            Leaf(1),
+            Leaf(2)
+          ),
+          Leaf(2)
+        )
+      )
+    ) shouldBe 4
   }
 }

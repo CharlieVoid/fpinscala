@@ -39,7 +39,7 @@ object Fold {
     )
 
   def map[A, B](as: List[A])(f: A => B): List[B] =
-    foldLeft[A, List[B]](as, Nil)((b, a) => append(f(a), b))
+    foldRight[A, List[B]](as, Nil)((a, b) => Cons(f(a), b))
 
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
     foldLeft[A, List[A]](as, Nil)((b, a) =>
@@ -72,17 +72,17 @@ object Fold {
   }
 
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-    def go(sup: List[A], sub: List[A], toGo: List[A]): Boolean = {
+    def go(sup: List[A], toGo: List[A]): Boolean = {
       (sup, toGo) match {
         case (_, Nil) => true
         case (Nil, _) => false
         case (Cons(h1, t1), Cons(h2, t2)) =>
-          if (h1 == h2) go(t1, sub, t2)
-          else go(t1, sub, sub)
+          if (h1 == h2) go(t1, t2)
+          else go(t1, sub)
       }
     }
 
-    go(sup, sub, sub)
+    go(sup, sub)
   }
 
 }
